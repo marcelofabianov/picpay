@@ -8,11 +8,11 @@ O desafio consiste em criar uma API REST para simular transações financeiras e
 
 ## Regras de Negócio
 
-- Dever conter 2 tipos de usuários (Pessoa Física e Lojista).
+- Dever conter 2 tipos de wallet (Usuário e Lojista).
 - Ambos usuários precisam ter nome completo, CPF/CNPJ, e-mail e senha.
 - Usuário PF podem realizar transferências para Pessoa Física e Lojistas.
 - O CPF/CNPJ, devem ser válidos e únicos.
-- Usuário Lojista só pode receber transferências, não pode transferir para outros usuários.
+- Usuário com wallet do tipo Lojista só pode receber transferências, não pode transferir para outros usuários.
 - Validar se o usuário tem saldo antes da transferência.
 - Antes de finalizar a transferência, deve-se consultar um serviço autorizador externo. (crie um mock)
 - A operação de transferência deverá ser uma transação com opção de rollback em caso de falha.
