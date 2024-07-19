@@ -7,11 +7,12 @@ import (
 )
 
 type Config struct {
-	Env      string `env:"ENV" envDefault:"development"`
-	Timezone string `env:"TZ" envDefault:"UTC"`
-	Log      LogConfig
-	Db       DatabaseConfig
-	Api      ApiConfig
+	Env           string `env:"ENV" envDefault:"development"`
+	Timezone      string `env:"TZ" envDefault:"UTC"`
+	Log           LogConfig
+	Db            DatabaseConfig
+	Api           ApiConfig
+	MessageBroker MessageBrokerConfig
 }
 
 type LogConfig struct {
@@ -33,6 +34,10 @@ type DatabaseConfig struct {
 type ApiConfig struct {
 	Host string `env:"TFR_API_HOST" envDefault:"localhost"`
 	Port string `env:"TFR_API_PORT" envDefault:"8081"`
+}
+
+type MessageBrokerConfig struct {
+	Url string `env:"TFR_MB_URL"`
 }
 
 func NewConfig() (*Config, error) {
@@ -61,6 +66,9 @@ func NewConfig() (*Config, error) {
 		Api: ApiConfig{
 			Host: os.Getenv("TFR_API_HOST"),
 			Port: os.Getenv("TFR_API_PORT"),
+		},
+		MessageBroker: MessageBrokerConfig{
+			Url: os.Getenv("TFR_RMQ_URL"),
 		},
 	}
 

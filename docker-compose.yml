@@ -11,6 +11,7 @@ services:
       - '${TFR_API_PORT:-8081}:8081'
     depends_on:
       - transfer-db
+      - rabbitmq
     networks:
       - transfer-network
     working_dir: /app
@@ -41,10 +42,36 @@ services:
       timeout: 5s
       retries: 5
 
-networks:
-  transfer-network:
-    driver: bridge
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    image: 'rabbitmq:3-management'
+    ports:
+      - '${RABBITMQ_PORT:-5672}:5672'
+      - '${RABBITMQ_MANAGEMENT_PORT:-15672}:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-username}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-password}
+    networks:
+      - transfer-network
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -sSf http://localhost:15672/api/healthchecks/node | grep '\"status\":\"ok\"'"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   transfer-data:
     driver: local
+  rabbitmq-data:
+    driver: local
+
+networks:
+  transfer-network:
+    driver: bridge
