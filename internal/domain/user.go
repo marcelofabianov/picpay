@@ -14,6 +14,7 @@ type User struct {
 	Password         Password         `json:"password" validate:"required,min=8,max=255,string"`
 	DocumentRegistry DocumentRegistry `json:"document_registry" validate:"required,min=11,max=14,string"`
 	Type             UserType         `json:"type" validate:"required,oneof=common merchant"`
+	Enabled          bool             `json:"enabled" validate:"required,bool"`
 	CreatedAt        CreatedAt        `json:"created_at"`
 	UpdatedAt        UpdatedAt        `json:"updated_at"`
 	DeletedAt        *DeletedAt       `json:"deleted_at" validate:"omitempty"`
