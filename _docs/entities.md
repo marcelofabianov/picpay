@@ -3,22 +3,22 @@
 ## Enumeradores
 
 `WalletType` (Tipo de Carteira)
-- **WalletTypeCommon:**: USER | Carteira comum do usuário.
-- **WalletTypeMerchant**: MERCHANT | Carteira do estabelecimento.
+- **WalletTypeCommon:**: `USER` | *Carteira comum do usuário.*
+- **WalletTypeMerchant**: `MERCHANT` | *Carteira do estabelecimento.*
 
 `TransferStatus` (Status da Transferência)
-- **TransferStatusPending:** PENDING | Transferência pendente.
-- **TransferStatusRejected:** REJECTED | Transferência rejeitada.
-- **TransferStatusReserved:** RESERVED | Transferência com valor reservado.
-- **TransferStatusCompleted:** COMPLETED | Transferência concluída.
-- **TransferStatusReversed:** REVERSED | Transferência revertida.
-- **TransferStatusError:** ERROR | Transferência com erro.
+- **TransferStatusPending:** `PENDING` | *Transferência pendente.*
+- **TransferStatusRejected:** `REJECTED` | *Transferência rejeitada.*
+- **TransferStatusReserved:** `RESERVED` | *Transferência com valor reservado.*
+- **TransferStatusCompleted:** `COMPLETED` | *Transferência concluída.*
+- **TransferStatusReversed:** `REVERSED` | *Transferência revertida.*
+- **TransferStatusError:** `ERROR` | *Transferência com erro.*
 
 `AuthorizationTransferStatus` (Status da Autorização de Transferência)
-- **AuthorizationTransferStatusPending:** PENDING | Autorização de transferência pendente.
-- **AuthorizationTransferStatusOK:** OK | Autorização de transferência concedida.
-- **AuthorizationTransferRejected:** REJECTED | Autorização de transferência rejeitada.
-- **AuthorizationTransferStatusError:** ERROR | Autorização de transferência com erro.
+- **AuthorizationTransferStatusPending:** `PENDING` | *Autorização de transferência pendente.*
+- **AuthorizationTransferStatusOK:** `OK` | *Autorização de transferência concedida.*
+- **AuthorizationTransferRejected:** `REJECTED` | *Autorização de transferência rejeitada.*
+- **AuthorizationTransferStatusError:** `ERROR` | *Autorização de transferência com erro.*
 
 ## Entidades
 
