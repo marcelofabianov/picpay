@@ -5,7 +5,7 @@ type AuthorizationTransferStatus string
 const (
 	AuthorizationTransferStatusPending AuthorizationTransferStatus = "PENDING"
 	AuthorizationTransferStatusOK      AuthorizationTransferStatus = "OK"
-	AuthorizationTransferNegative      AuthorizationTransferStatus = "NEGATIVE"
+	AuthorizationTransferRejected      AuthorizationTransferStatus = "REJECTED"
 	AuthorizationTransferStatusError   AuthorizationTransferStatus = "ERROR"
 )
 

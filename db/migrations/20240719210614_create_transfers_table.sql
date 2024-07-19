@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS transfers (
     payee_id UUID NOT NULL,
     wallet_destiny_id UUID NOT NULL,
     amount NUMERIC(15, 2) NOT NULL CHECK (amount >= 0.01),
-    status VARCHAR(20) NOT NULL,
+    status VARCHAR(50) NOT NULL,
     enabled BOOLEAN NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,

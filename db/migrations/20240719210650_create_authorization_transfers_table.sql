@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS authorization_transfers (
     id UUID PRIMARY KEY,
     transfer_id UUID NOT NULL,
-    status VARCHAR(20) NOT NULL,
+    status VARCHAR(50) NOT NULL,
     enabled BOOLEAN NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,

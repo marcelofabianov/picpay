@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS wallets (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
     amount NUMERIC(15, 2) NOT NULL CHECK (amount >= 0.01),
-    type VARCHAR(20) NOT NULL CHECK (type IN ('user', 'merchant')),
+    type VARCHAR(50) NOT NULL,
     enabled BOOLEAN NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
