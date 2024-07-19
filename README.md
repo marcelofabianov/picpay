@@ -41,6 +41,10 @@ O desafio consiste em criar uma API REST para simular transações financeiras e
 
 A aplicação foi desenvolvida usando conceitos de arquitetura Ports and Adapters, EDA e Event Sourcing.
 
+## Documentação
+
+- [Entities](_docs/entities.md)
+
 ## Endpoints
 
 ...
