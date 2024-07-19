@@ -68,7 +68,7 @@ func NewConfig() (*Config, error) {
 			Port: os.Getenv("TFR_API_PORT"),
 		},
 		MessageBroker: MessageBrokerConfig{
-			Url: os.Getenv("TFR_MB_URL"),
+			Url: os.Getenv("TFR_RMQ_URL"),
 		},
 	}
 

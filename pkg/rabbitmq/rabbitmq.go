@@ -32,6 +32,25 @@ type ConsumeConfig struct {
 	Wait              bool
 }
 
+type ExchangeQueueConfig struct {
+	ExchangeName       string
+	ExchangeType       string
+	ExchangeDurable    bool
+	ExchangeAutoDelete bool
+	ExchangeInternal   bool
+	ExchangeNoWait     bool
+	ExchangeArgs       amqp.Table
+
+	QueueName       string
+	QueueDurable    bool
+	QueueExclusive  bool
+	QueueAutoDelete bool
+	QueueArgs       amqp.Table
+	QueueBindKey    string
+	QueueWait       bool
+}
+
+// NewRabbitMQ creates a new RabbitMQ client.
 func NewRabbitMQ(url string) (*RabbitMQ, error) {
 	conn, err := amqp.Dial(url)
 	if err != nil {
@@ -45,6 +64,51 @@ func NewRabbitMQ(url string) (*RabbitMQ, error) {
 	}
 
 	return &RabbitMQ{conn: conn, ch: ch}, nil
+}
+
+func (r *RabbitMQ) DeclareExchange(config ExchangeQueueConfig) error {
+	err := r.ch.ExchangeDeclare(
+		config.ExchangeName,
+		config.ExchangeType,
+		config.ExchangeDurable,
+		config.ExchangeAutoDelete,
+		config.ExchangeInternal,
+		config.ExchangeNoWait,
+		config.ExchangeArgs,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *RabbitMQ) DeclareQueue(config ExchangeQueueConfig) (amqp.Queue, error) {
+	q, err := r.ch.QueueDeclare(
+		config.QueueName,
+		config.QueueDurable,
+		config.QueueExclusive,
+		config.QueueAutoDelete,
+		config.QueueWait,
+		config.QueueArgs,
+	)
+	if err != nil {
+		return amqp.Queue{}, err
+	}
+	return q, nil
+}
+
+func (r *RabbitMQ) BindQueue(queueName, exchange, key string) error {
+	err := r.ch.QueueBind(
+		queueName,
+		key,
+		exchange,
+		false,
+		nil,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (r *RabbitMQ) Publish(ctx context.Context, config PublishConfig, message []byte) error {
