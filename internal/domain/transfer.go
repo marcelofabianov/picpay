@@ -4,7 +4,7 @@ type TransferStatus string
 
 const (
 	TransferStatusPending   TransferStatus = "PENDING"
-	TransferStatusRefused   TransferStatus = "REFUSED"
+	TransferStatusRejected  TransferStatus = "REJECTED"
 	TransferStatusReserved  TransferStatus = "RESERVED"
 	TransferStatusCompleted TransferStatus = "COMPLETED"
 	TransferStatusReversed  TransferStatus = "REVERSED"
