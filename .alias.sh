@@ -1,4 +1,4 @@
-alias g="docker exec -it transfer-app"
+alias g="docker exec transfer-app"
 alias gb="g bash"
 alias gg="g go"
 alias gr="gg run"
