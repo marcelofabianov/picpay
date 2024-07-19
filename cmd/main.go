@@ -20,5 +20,5 @@ func main() {
 
 	defer logger.Close()
 
-	logger.Info("logger created")
+	logger.Info("ONLINE")
 }
