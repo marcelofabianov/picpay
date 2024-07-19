@@ -1,0 +1,8 @@
+[build]
+bin = "/app/tmp/main"
+cmd = "go build -o /app/tmp/main ./cmd/main.go"
+exclude = ["tmp"]
+include = ["cmd", "internal", "config", "storage"]
+
+[server]
+port = 8081

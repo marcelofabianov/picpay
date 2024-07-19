@@ -1,0 +1,50 @@
+name: "transfer-app"
+
+services:
+  transfer-app:
+    container_name: transfer-app
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${TFR_API_PORT:-8081}:8081'
+    depends_on:
+      - transfer-db
+    networks:
+      - transfer-network
+    working_dir: /app
+    volumes:
+      - .:/app
+
+  transfer-db:
+    container_name: transfer-db
+    restart: always
+    image: 'postgres:16.2'
+    ports:
+      - '${TFR_PG_PORT:-5432}:5432'
+    environment:
+      POSTGRES_USER: ${TFR_PG_USER:-username}
+      POSTGRES_PASSWORD: ${TFR_PG_PASSWORD:-password}
+      POSTGRES_DB: ${TFR_PG_DATABASE:-transfer-db}
+    volumes:
+      - transfer-data:/var/lib/postgresql/data:rw
+    networks:
+      - transfer-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${TFR_PG_USER:-username} -d ${TFR_PG_DATABASE:-transfer-db}'"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  transfer-network:
+    driver: bridge
+
+volumes:
+  transfer-data:
+    driver: local
