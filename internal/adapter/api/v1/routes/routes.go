@@ -9,6 +9,7 @@ import (
 func SetupRoutes(router *fiber.Router, logger *zap.Logger) {
 	group := (*router).Group("/v1")
 
+	// Users
 	group.Get("/users", handlers.GetUsersHandler)
 	group.Get("/users/:id", handlers.GetUserHandler)
 	group.Post("/users", handlers.CreateUserHandler)
