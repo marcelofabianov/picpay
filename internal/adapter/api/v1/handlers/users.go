@@ -1,6 +1,12 @@
 package handlers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+
+	"github.com/marcelofabianov/picpay/internal/adapter/api/common/response"
+	"github.com/marcelofabianov/picpay/internal/adapter/api/common/validate"
+	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/requests"
+)
 
 func GetUsersHandler(c *fiber.Ctx) error {
 	c.Accepts("application/json")
@@ -23,12 +29,15 @@ func GetUserHandler(c *fiber.Ctx) error {
 }
 
 func CreateUserHandler(c *fiber.Ctx) error {
-	c.Accepts("application/json")
+	var req requests.UserCreateRequest
+	c.BodyParser(&req)
 
-	return c.JSON(fiber.Map{
-		"status": "OK",
-		"data":   "user created",
-	})
+	result := validate.IsValid(c, req)
+	if result {
+		response.NewCreatedResponse(c, req)
+	}
+
+	return nil
 }
 
 func UpdateUserHandler(c *fiber.Ctx) error {
