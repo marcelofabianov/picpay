@@ -1,20 +1,18 @@
-package handlers
+package v1
 
 import (
 	"github.com/gofiber/fiber/v2"
-
-	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/presenter"
-	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/requests"
 	"github.com/marcelofabianov/picpay/internal/infra/request"
 	"github.com/marcelofabianov/picpay/internal/infra/response"
+	"github.com/marcelofabianov/picpay/internal/port"
 )
 
 func GetUsersHandler(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
-	var users []presenter.UserPresenter
+	var users []port.UserPresenter
 
-	users = append(users, presenter.UserPresenter{
+	users = append(users, port.UserPresenter{
 		ID:               request.GenerateUUID(),
 		Name:             "John Doe",
 		Email:            "john@email.com",
@@ -24,7 +22,7 @@ func GetUsersHandler(c *fiber.Ctx) error {
 		Enabled:          true,
 	})
 
-	users = append(users, presenter.UserPresenter{
+	users = append(users, port.UserPresenter{
 		ID:               request.GenerateUUID(),
 		Name:             "Jane Doe",
 		Email:            "jane@email.com",
@@ -44,7 +42,7 @@ func GetUserHandler(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	response.Ok(c, presenter.UserPresenter{
+	response.Ok(c, port.UserPresenter{
 		ID:               id,
 		Name:             "John Doe",
 		Email:            "john@email.com",
@@ -58,12 +56,12 @@ func GetUserHandler(c *fiber.Ctx) error {
 }
 
 func CreateUserHandler(c *fiber.Ctx) error {
-	var data requests.UserCreateRequest
+	var data port.UserCreateRequest
 	c.BodyParser(&data)
 
 	result := request.IsValid(c, data)
 	if result {
-		response.Created(c, presenter.UserPresenter{
+		response.Created(c, port.UserPresenter{
 			ID:               request.GenerateUUID(),
 			Name:             data.Name,
 			Email:            data.Email,
@@ -82,7 +80,7 @@ func UpdateUserHandler(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	response.Ok(c, presenter.UserPresenter{
+	response.Ok(c, port.UserPresenter{
 		ID:               id,
 		Name:             "John",
 		Email:            "john@email.com",

@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/marcelofabianov/picpay/config"
-	v1 "github.com/marcelofabianov/picpay/internal/adapter/api/v1/routes"
+	v1 "github.com/marcelofabianov/picpay/internal/adapter/api/v1"
 	"github.com/marcelofabianov/picpay/internal/infra/middlewares"
 	"github.com/marcelofabianov/picpay/pkg/zap"
 )
