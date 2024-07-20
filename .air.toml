@@ -11,11 +11,11 @@ full_bin = "./tmp/main"
 # Extensões de arquivos para monitorar
 include_ext = ["go"]
 # Diretórios a serem ignorados
-exclude_dir = ["tmp", "_docs", "_req"]
+exclude_dir = ["tmp", "_docs"]
 # Diretórios adicionais a serem monitorados
 include_dir = []
 # Arquivos específicos a serem ignorados
-exclude_file = []
+exclude_file = [".http", ".env"]
 # Arquivo de log
 log = "air.log"
 # Atraso na recompilação
