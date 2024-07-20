@@ -3,6 +3,7 @@ package zap
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/marcelofabianov/picpay/config"
 	"go.uber.org/zap"
@@ -102,4 +103,20 @@ func defineOutputConfig(
 		return nil, fmt.Errorf("invalid log output: %s", cfg.Output)
 	}
 	return core, nil
+}
+
+func Error(err error) zap.Field {
+	return zap.Error(err)
+}
+
+func String(key string, value string) zap.Field {
+	return zap.String(key, value)
+}
+
+func Int(key string, value int) zap.Field {
+	return zap.Int(key, value)
+}
+
+func Duration(key string, value time.Duration) zap.Field {
+	return zap.Duration(key, value)
 }
