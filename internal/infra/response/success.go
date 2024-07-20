@@ -9,7 +9,7 @@ type SuccessOkResponse struct {
 	Data    interface{} `json:"data"`
 }
 
-func NewOkResponse(c *fiber.Ctx, data interface{}) {
+func Ok(c *fiber.Ctx, data interface{}) {
 	c.Status(fiber.StatusOK).JSON(SuccessOkResponse{
 		Success: true,
 		Status:  200,
@@ -18,7 +18,7 @@ func NewOkResponse(c *fiber.Ctx, data interface{}) {
 	})
 }
 
-func NewCreatedResponse(c *fiber.Ctx, data interface{}) {
+func Created(c *fiber.Ctx, data interface{}) {
 	c.Status(fiber.StatusCreated).JSON(SuccessOkResponse{
 		Success: true,
 		Status:  201,
@@ -27,6 +27,6 @@ func NewCreatedResponse(c *fiber.Ctx, data interface{}) {
 	})
 }
 
-func NewNoContentResponse(c *fiber.Ctx) {
+func NoContent(c *fiber.Ctx) {
 	c.Status(fiber.StatusNoContent)
 }

@@ -11,7 +11,7 @@ type ErrorResponse struct {
 	Data    interface{}         `json:"data"`
 }
 
-func BadRequestErrorsResponse(c *fiber.Ctx, errors []map[string]string) {
+func BadRequestErrors(c *fiber.Ctx, errors []map[string]string) {
 	c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
 		Success: false,
 		Status:  400,
@@ -20,7 +20,7 @@ func BadRequestErrorsResponse(c *fiber.Ctx, errors []map[string]string) {
 	})
 }
 
-func BadRequestResponse(c *fiber.Ctx, err error) {
+func BadRequest(c *fiber.Ctx, err error) {
 	c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
 		Success: false,
 		Status:  400,

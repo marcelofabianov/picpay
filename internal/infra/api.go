@@ -4,8 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/marcelofabianov/picpay/config"
-	"github.com/marcelofabianov/picpay/internal/adapter/api/common/middlewares"
 	v1 "github.com/marcelofabianov/picpay/internal/adapter/api/v1/routes"
+	"github.com/marcelofabianov/picpay/internal/infra/middlewares"
 	"github.com/marcelofabianov/picpay/pkg/zap"
 )
 
@@ -19,6 +19,7 @@ func Api(cfg *config.Config, logger *zap.Logger) *fiber.App {
 	}
 
 	api.Use(middlewares.RateLimitMiddleware())
+	api.Use(middlewares.CorsMiddleware())
 
 	api.Get("/health", HealthCheckHandler)
 

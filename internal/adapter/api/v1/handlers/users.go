@@ -3,9 +3,9 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/marcelofabianov/picpay/internal/adapter/api/common/response"
-	"github.com/marcelofabianov/picpay/internal/adapter/api/common/validate"
 	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/requests"
+	"github.com/marcelofabianov/picpay/internal/infra/request"
+	"github.com/marcelofabianov/picpay/internal/infra/response"
 )
 
 func GetUsersHandler(c *fiber.Ctx) error {
@@ -32,9 +32,9 @@ func CreateUserHandler(c *fiber.Ctx) error {
 	var req requests.UserCreateRequest
 	c.BodyParser(&req)
 
-	result := validate.IsValid(c, req)
+	result := request.IsValid(c, req)
 	if result {
-		response.NewCreatedResponse(c, req)
+		response.Created(c, req)
 	}
 
 	return nil
