@@ -12,10 +12,31 @@ import (
 func GetUsersHandler(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
-	return c.JSON(fiber.Map{
-		"status": "OK",
-		"data":   []string{"user1", "user2"},
+	var users []presenter.UserPresenter
+
+	users = append(users, presenter.UserPresenter{
+		ID:               request.GenerateUUID(),
+		Name:             "John Doe",
+		Email:            "john@email.com",
+		DocumentRegistry: "11111111111",
+		CreatedAt:        request.GetCurrentTime(),
+		UpdatedAt:        request.GetCurrentTime(),
+		Enabled:          true,
 	})
+
+	users = append(users, presenter.UserPresenter{
+		ID:               request.GenerateUUID(),
+		Name:             "Jane Doe",
+		Email:            "jane@email.com",
+		DocumentRegistry: "22222222222",
+		CreatedAt:        request.GetCurrentTime(),
+		UpdatedAt:        request.GetCurrentTime(),
+		Enabled:          true,
+	})
+
+	response.Ok(c, users)
+
+	return nil
 }
 
 func GetUserHandler(c *fiber.Ctx) error {
@@ -23,10 +44,17 @@ func GetUserHandler(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	return c.JSON(fiber.Map{
-		"status": "OK",
-		"data":   "user: " + id,
+	response.Ok(c, presenter.UserPresenter{
+		ID:               id,
+		Name:             "John Doe",
+		Email:            "john@email.com",
+		DocumentRegistry: "11111111111",
+		CreatedAt:        request.GetCurrentTime(),
+		UpdatedAt:        request.GetCurrentTime(),
+		Enabled:          true,
 	})
+
+	return nil
 }
 
 func CreateUserHandler(c *fiber.Ctx) error {
@@ -54,19 +82,23 @@ func UpdateUserHandler(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
-	return c.JSON(fiber.Map{
-		"status": "OK",
-		"data: ": "user updated: " + id,
+	response.Ok(c, presenter.UserPresenter{
+		ID:               id,
+		Name:             "John",
+		Email:            "john@email.com",
+		DocumentRegistry: "11111111111",
+		CreatedAt:        request.GetCurrentTime(),
+		UpdatedAt:        request.GetCurrentTime(),
+		Enabled:          true,
 	})
+
+	return nil
 }
 
 func DeleteUserHandler(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
-	id := c.Params("id")
+	response.NoContent(c)
 
-	return c.JSON(fiber.Map{
-		"status": "OK",
-		"data":   "user deleted: " + id,
-	})
+	return nil
 }
