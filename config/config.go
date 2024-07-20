@@ -7,8 +7,9 @@ import (
 )
 
 type Config struct {
-	Env           string `env:"ENV" envDefault:"development"`
-	Timezone      string `env:"TZ" envDefault:"UTC"`
+	Env           string
+	Timezone      string
+	Name          string
 	Log           LogConfig
 	Db            DatabaseConfig
 	Api           ApiConfig
@@ -16,28 +17,27 @@ type Config struct {
 }
 
 type LogConfig struct {
-	Level    string `env:"TFR_LOGGER_LEVEL" envDefault:"info"`
-	Format   string `env:"TFR_LOGGER_FORMAT" envDefault:"json"`
-	Output   string `env:"TFR_LOGGER_OUTPUT" envDefault:"stdout"`
-	FilePath string `env:"TFR_LOGGER_PATH" envDefault:"./storage/logs/transfer.log"`
+	Level    string
+	Format   string
+	Output   string
+	FilePath string
 }
 
 type DatabaseConfig struct {
-	Host     string `env:"TFR_PG_HOST" envDefault:"localhost"`
-	Port     string `env:"TFR_PG_PORT" envDefault:"5432"`
-	User     string `env:"TFR_PG_USER" envDefault:"username"`
-	Password string `env:"TFR_PG_PASSWORD" envDefault:"password"`
-	Database string `env:"TFR_PG_DATABASE" envDefault:"transfer-db"`
-	SslMode  string `env:"TFR_PG_SSL_MODE" envDefault:"disable"`
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SslMode  string
 }
 
 type ApiConfig struct {
-	Host string `env:"TFR_API_HOST" envDefault:"localhost"`
-	Port string `env:"TFR_API_PORT" envDefault:"8081"`
+	Address string
 }
 
 type MessageBrokerConfig struct {
-	Url string `env:"TFR_MB_URL"`
+	Url string
 }
 
 func NewConfig() (*Config, error) {
@@ -49,26 +49,26 @@ func NewConfig() (*Config, error) {
 	cfg := &Config{
 		Env:      os.Getenv("ENV"),
 		Timezone: os.Getenv("TZ"),
+		Name:     os.Getenv("NAME"),
 		Log: LogConfig{
-			Level:    os.Getenv("TFR_LOGGER_LEVEL"),
-			Format:   os.Getenv("TFR_LOGGER_FORMAT"),
-			Output:   os.Getenv("TFR_LOGGER_OUTPUT"),
-			FilePath: os.Getenv("TFR_LOGGER_PATH"),
+			Level:    os.Getenv("LOG_LEVEL"),
+			Format:   os.Getenv("LOG_FORMAT"),
+			Output:   os.Getenv("LOG_OUTPUT"),
+			FilePath: os.Getenv("LOG_PATH"),
 		},
 		Db: DatabaseConfig{
-			Host:     os.Getenv("TFR_PG_HOST"),
-			Port:     os.Getenv("TFR_PG_PORT"),
-			User:     os.Getenv("TFR_PG_USER"),
-			Password: os.Getenv("TFR_PG_PASSWORD"),
-			Database: os.Getenv("TFR_PG_DATABASE"),
-			SslMode:  os.Getenv("TFR_PG_SSL_MODE"),
+			Host:     os.Getenv("PG_HOST"),
+			Port:     os.Getenv("PG_PORT"),
+			User:     os.Getenv("PG_USER"),
+			Password: os.Getenv("PG_PASSWORD"),
+			Database: os.Getenv("PG_DATABASE"),
+			SslMode:  os.Getenv("PG_SSL_MODE"),
 		},
 		Api: ApiConfig{
-			Host: os.Getenv("TFR_API_HOST"),
-			Port: os.Getenv("TFR_API_PORT"),
+			Address: os.Getenv("API_ADDRESS"),
 		},
 		MessageBroker: MessageBrokerConfig{
-			Url: os.Getenv("TFR_RMQ_URL"),
+			Url: os.Getenv("RMQ_URL"),
 		},
 	}
 
