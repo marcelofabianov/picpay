@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/marcelofabianov/picpay/config"
+	"github.com/marcelofabianov/picpay/internal/infra"
 	"github.com/marcelofabianov/picpay/pkg/zap"
 )
 
@@ -19,5 +20,9 @@ func main() {
 	}
 	defer logger.Close()
 
-	logger.Info("starting application")
+	api := infra.Api(cfg, logger)
+
+	if err := api.Listen(cfg.Api.Address); err != nil {
+		logger.Error("error starting server", zap.Error(err))
+	}
 }

@@ -34,6 +34,7 @@ type DatabaseConfig struct {
 
 type ApiConfig struct {
 	Address string
+	Logging bool
 }
 
 type MessageBrokerConfig struct {
@@ -66,6 +67,7 @@ func NewConfig() (*Config, error) {
 		},
 		Api: ApiConfig{
 			Address: os.Getenv("API_ADDRESS"),
+			Logging: os.Getenv("API_LOGGING") == "true",
 		},
 		MessageBroker: MessageBrokerConfig{
 			Url: os.Getenv("RMQ_URL"),
