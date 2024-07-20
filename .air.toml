@@ -1,8 +1,43 @@
-[build]
-bin = "/app/tmp/main"
-cmd = "go build -o /app/tmp/main ./cmd/main.go"
-exclude = ["tmp"]
-include = ["cmd", "internal", "config", "storage"]
+root = "."
+tmp_dir = "tmp"
 
-[server]
-port = 8081
+[build]
+# Comando para construir o binário
+cmd = "go build -o ./tmp/main ./cmd/main.go"
+# Nome do binário
+bin = "main"
+# Caminho completo para o binário
+full_bin = "./tmp/main"
+# Extensões de arquivos para monitorar
+include_ext = ["go"]
+# Diretórios a serem ignorados
+exclude_dir = ["tmp", "_docs", "_req"]
+# Diretórios adicionais a serem monitorados
+include_dir = []
+# Arquivos específicos a serem ignorados
+exclude_file = []
+# Arquivo de log
+log = "air.log"
+# Atraso na recompilação
+delay = 1000 # ms
+# Parar o binário antigo em caso de erro
+stop_on_error = true
+# Enviar sinal de interrupção antes de matar o processo
+send_interrupt = false
+# Atraso após enviar sinal de interrupção
+kill_delay = 500 # ms
+
+[log]
+# Mostrar o tempo nos logs
+time = true
+
+[color]
+# Personalizar a cor de cada parte
+build = "yellow"
+main = "magenta"
+runner = "green"
+watcher = "cyan"
+
+[misc]
+# Limpar o diretório temporário na saída
+clean_on_exit = true

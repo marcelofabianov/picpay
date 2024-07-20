@@ -19,5 +19,5 @@ func main() {
 	}
 	defer logger.Close()
 
-	logger.Info("Application started!")
+	logger.Info("starting application")
 }
