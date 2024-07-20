@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 
+	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/presenter"
 	"github.com/marcelofabianov/picpay/internal/adapter/api/v1/requests"
 	"github.com/marcelofabianov/picpay/internal/infra/request"
 	"github.com/marcelofabianov/picpay/internal/infra/response"
@@ -29,12 +30,20 @@ func GetUserHandler(c *fiber.Ctx) error {
 }
 
 func CreateUserHandler(c *fiber.Ctx) error {
-	var req requests.UserCreateRequest
-	c.BodyParser(&req)
+	var data requests.UserCreateRequest
+	c.BodyParser(&data)
 
-	result := request.IsValid(c, req)
+	result := request.IsValid(c, data)
 	if result {
-		response.Created(c, req)
+		response.Created(c, presenter.UserPresenter{
+			ID:               request.GenerateUUID(),
+			Name:             data.Name,
+			Email:            data.Email,
+			DocumentRegistry: data.DocumentRegistry,
+			CreatedAt:        request.GetCurrentTime(),
+			UpdatedAt:        request.GetCurrentTime(),
+			Enabled:          true,
+		})
 	}
 
 	return nil
