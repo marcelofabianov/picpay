@@ -2,6 +2,19 @@ package port
 
 import "github.com/marcelofabianov/picpay/internal/domain"
 
+// Errors
+
+const (
+	ErrUserAlreadyExists = "error_user_already_exists"
+)
+
+// PKG
+
+type PasswordHasher interface {
+	Hash(data string) (string, error)
+	Compare(data, encodedHash string) (bool, error)
+}
+
 // Request
 
 type UserCreateRequest struct {
@@ -29,6 +42,29 @@ type CreateUserService interface {
 	CreateUser(request UserCreateRequest) (UserPresenter, error)
 }
 
+type UserService interface {
+	CreateUserService
+}
+
+// Repository
+
+type CreateUserRepositoryInput struct {
+	User domain.User
+}
+
+type CreateUserRepositoryOutput struct {
+	CreateUserRepositoryInput
+}
+
+type CreateUserRepository interface {
+	CreateUser(input CreateUserRepositoryInput) (CreateUserRepositoryOutput, error)
+	ExistsByEmailOrDocumentRegistry(email string, documentRegistry string) (bool, error)
+}
+
+type UserRepository interface {
+	CreateUserRepository
+}
+
 // UseCase
 
 type CreateUserInputUseCase struct {
@@ -39,7 +75,7 @@ type CreateUserInputUseCase struct {
 }
 
 type CreateUserOutputUseCase struct {
-	User domain.User
+	CreateUserRepositoryOutput
 }
 
 type CreateUserUseCase interface {
