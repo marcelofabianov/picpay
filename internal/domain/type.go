@@ -31,3 +31,11 @@ func UpdatedAtNow() UpdatedAt {
 func InitVersion() Version {
 	return Version(1)
 }
+
+func (c CreatedAt) Format() string {
+	return time.Time(c).Format(time.RFC3339)
+}
+
+func (u UpdatedAt) Format() string {
+	return time.Time(u).Format(time.RFC3339)
+}
