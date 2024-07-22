@@ -21,7 +21,7 @@ func NewCreateUserUseCase(repository port.CreateUserRepository, passwordHasher p
 }
 
 func (uc *CreateUserUseCase) Execute(ctx context.Context, input port.CreateUserInputUseCase) (port.CreateUserOutputUseCase, error) {
-	exists, err := uc.userExists(ctx, input.Email, input.DocumentRegistry)
+	exists, err := uc.userExists(ctx, string(input.Email), string(input.DocumentRegistry))
 	if err != nil {
 		return port.CreateUserOutputUseCase{}, err
 	}
@@ -29,7 +29,7 @@ func (uc *CreateUserUseCase) Execute(ctx context.Context, input port.CreateUserI
 		return port.CreateUserOutputUseCase{}, errors.New(port.ErrUserAlreadyExists)
 	}
 
-	password, error := uc.passwordHasher.Hash(input.Password)
+	password, error := uc.passwordHasher.Hash(string(input.Password))
 	if error != nil {
 		return port.CreateUserOutputUseCase{}, error
 	}
