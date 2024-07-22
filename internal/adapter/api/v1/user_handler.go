@@ -61,15 +61,31 @@ func CreateUserHandler(c *fiber.Ctx) error {
 
 	result := request.IsValid(c, data)
 	if result {
-		response.Created(c, port.UserPresenter{
-			ID:               request.GenerateUUID(),
+		inputService := port.UserCreateRequest{
 			Name:             data.Name,
 			Email:            data.Email,
+			Password:         data.Password,
 			DocumentRegistry: data.DocumentRegistry,
-			CreatedAt:        request.GetCurrentTime(),
-			UpdatedAt:        request.GetCurrentTime(),
-			Enabled:          true,
-		})
+		}
+
+		service := c.Locals("userService").(port.UserService)
+
+		outputService, err := service.CreateUser(c.Context(), inputService)
+		if err != nil {
+			response.InternalServerError(c)
+		}
+
+		presenter := port.UserPresenter{
+			ID:               outputService.ID,
+			Name:             outputService.Name,
+			Email:            outputService.Email,
+			DocumentRegistry: outputService.DocumentRegistry,
+			CreatedAt:        outputService.CreatedAt,
+			UpdatedAt:        outputService.UpdatedAt,
+			Enabled:          outputService.Enabled,
+		}
+
+		response.Created(c, presenter)
 	}
 
 	return nil

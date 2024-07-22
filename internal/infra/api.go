@@ -2,15 +2,20 @@ package infra
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/marcelofabianov/picpay/config"
+	"github.com/marcelofabianov/picpay/internal"
 	v1 "github.com/marcelofabianov/picpay/internal/adapter/api/v1"
 	"github.com/marcelofabianov/picpay/internal/infra/middlewares"
+	"github.com/marcelofabianov/picpay/internal/port"
 	"github.com/marcelofabianov/picpay/pkg/zap"
 )
 
-func Api(cfg *config.Config, logger *zap.Logger) *fiber.App {
+func Api(cfg *config.Config, logger *zap.Logger, db *pgx.Conn) *fiber.App {
 	app := fiber.New()
+
+	app = ContainerInjection(app, db)
 
 	api := app.Group("/api")
 
@@ -21,18 +26,36 @@ func Api(cfg *config.Config, logger *zap.Logger) *fiber.App {
 	api.Use(middlewares.RateLimitMiddleware())
 	api.Use(middlewares.CorsMiddleware())
 
-	api.Get("/health", HealthCheckHandler)
+	api.Get("/health", func(c *fiber.Ctx) error {
+		c.Accepts("application/json")
+
+		return c.JSON(fiber.Map{
+			"status":  "OK",
+			"message": "Service is healthy",
+		})
+	})
 
 	v1.SetupRoutes(&api, logger)
 
 	return app
 }
 
-func HealthCheckHandler(c *fiber.Ctx) error {
-	c.Accepts("application/json")
+func ContainerInjection(app *fiber.App, db *pgx.Conn) *fiber.App {
+	app.Use(func(c *fiber.Ctx) error {
+		container := internal.NewContainer(db)
 
-	return c.JSON(fiber.Map{
-		"status":  "OK",
-		"message": "Service is healthy",
+		var userService port.UserService
+		err := container.Invoke(func(service port.UserService) {
+			userService = service
+		})
+		if err != nil {
+			return err
+		}
+
+		c.Locals("userService", userService)
+
+		return c.Next()
 	})
+
+	return app
 }
