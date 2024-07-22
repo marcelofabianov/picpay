@@ -28,3 +28,12 @@ func BadRequest(c *fiber.Ctx, err error) {
 		Data:    nil,
 	})
 }
+
+func InternalServerError(c *fiber.Ctx) {
+	c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		Success: false,
+		Status:  500,
+		Error:   []map[string]string{{"error": "internal_server_error"}},
+		Data:    nil,
+	})
+}
