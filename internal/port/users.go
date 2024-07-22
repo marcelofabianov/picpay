@@ -1,6 +1,10 @@
 package port
 
-import "github.com/marcelofabianov/picpay/internal/domain"
+import (
+	"context"
+
+	"github.com/marcelofabianov/picpay/internal/domain"
+)
 
 // Errors
 
@@ -57,8 +61,8 @@ type CreateUserRepositoryOutput struct {
 }
 
 type CreateUserRepository interface {
-	CreateUser(input CreateUserRepositoryInput) (CreateUserRepositoryOutput, error)
-	ExistsByEmailOrDocumentRegistry(email string, documentRegistry string) (bool, error)
+	CreateUser(ctx context.Context, input CreateUserRepositoryInput) (CreateUserRepositoryOutput, error)
+	ExistsByEmailOrDocumentRegistry(ctx context.Context, email string, documentRegistry string) (bool, error)
 }
 
 type UserRepository interface {
@@ -79,5 +83,5 @@ type CreateUserOutputUseCase struct {
 }
 
 type CreateUserUseCase interface {
-	Execute(input CreateUserInputUseCase) (CreateUserOutputUseCase, error)
+	Execute(ctx context.Context, input CreateUserInputUseCase) (CreateUserOutputUseCase, error)
 }

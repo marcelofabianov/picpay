@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"errors"
 
 	"github.com/marcelofabianov/picpay/internal/domain"
@@ -12,14 +13,15 @@ type CreateUserUseCase struct {
 	passwordHasher port.PasswordHasher
 }
 
-func NewCreateUserUseCase(repository port.CreateUserRepository) port.CreateUserUseCase {
+func NewCreateUserUseCase(repository port.CreateUserRepository, passwordHasher port.PasswordHasher) port.CreateUserUseCase {
 	return &CreateUserUseCase{
-		repository: repository,
+		repository:     repository,
+		passwordHasher: passwordHasher,
 	}
 }
 
-func (uc *CreateUserUseCase) Execute(input port.CreateUserInputUseCase) (port.CreateUserOutputUseCase, error) {
-	exists, err := uc.UserExists(input.Email, input.DocumentRegistry)
+func (uc *CreateUserUseCase) Execute(ctx context.Context, input port.CreateUserInputUseCase) (port.CreateUserOutputUseCase, error) {
+	exists, err := uc.userExists(ctx, input.Email, input.DocumentRegistry)
 	if err != nil {
 		return port.CreateUserOutputUseCase{}, err
 	}
@@ -45,6 +47,7 @@ func (uc *CreateUserUseCase) Execute(input port.CreateUserInputUseCase) (port.Cr
 	}
 
 	output, err := uc.repository.CreateUser(
+		ctx,
 		port.CreateUserRepositoryInput{
 			User: user,
 		},
@@ -59,8 +62,8 @@ func (uc *CreateUserUseCase) Execute(input port.CreateUserInputUseCase) (port.Cr
 	}, nil
 }
 
-func (uc *CreateUserUseCase) UserExists(email, documentRegistry string) (bool, error) {
-	result, err := uc.repository.ExistsByEmailOrDocumentRegistry(email, documentRegistry)
+func (uc *CreateUserUseCase) userExists(ctx context.Context, email, documentRegistry string) (bool, error) {
+	result, err := uc.repository.ExistsByEmailOrDocumentRegistry(ctx, email, documentRegistry)
 	if err != nil {
 		return false, err
 	}
