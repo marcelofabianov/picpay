@@ -43,7 +43,7 @@ type UserPresenter struct {
 // Service
 
 type CreateUserService interface {
-	CreateUser(request UserCreateRequest) (UserPresenter, error)
+	CreateUser(ctx context.Context, request UserCreateRequest) (UserPresenter, error)
 }
 
 type UserService interface {
@@ -73,9 +73,9 @@ type UserRepository interface {
 
 type CreateUserInputUseCase struct {
 	Name             string
-	Email            string
-	Password         string
-	DocumentRegistry string
+	Email            domain.Email
+	Password         domain.Password
+	DocumentRegistry domain.DocumentRegistry
 }
 
 type CreateUserOutputUseCase struct {
