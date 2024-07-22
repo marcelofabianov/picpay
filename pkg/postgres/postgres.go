@@ -17,6 +17,10 @@ func NewPostgres(conn *pgx.Conn) *Postgres {
 	return &Postgres{conn: conn}
 }
 
+func (p *Postgres) Conn() *pgx.Conn {
+	return p.conn
+}
+
 func (p *Postgres) Close(ctx context.Context) error {
 	return p.conn.Close(ctx)
 }
